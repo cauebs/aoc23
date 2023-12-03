@@ -2,7 +2,7 @@ import aoc23.{get_input}
 import day01
 import gleeunit/should
 
-pub fn day01_part1_test() {
+pub fn part1_test() {
   "1abc2
 pqr3stu8vwx
 a1b2c3d4e5f
@@ -15,7 +15,7 @@ treb7uchet"
   |> should.equal(55_712)
 }
 
-pub fn day01_part2_test() {
+pub fn part2_test() {
   "two1nine
 eightwothree
 abcone2threexyz

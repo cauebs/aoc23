@@ -15,6 +15,7 @@ gleam_erlang = "~> 0.23"
 gleam_http = "~> 3.5"
 gleam_httpc = "~> 2.1"
 simplifile = "~> 1.0"
+nibble = "~> 0.2"
 
 [dev-dependencies]
 gleeunit = "~> 1.0"

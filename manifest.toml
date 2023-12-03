@@ -7,6 +7,7 @@ packages = [
   { name = "gleam_httpc", version = "2.1.1", build_tools = ["gleam"], requirements = ["gleam_stdlib", "gleam_http"], otp_app = "gleam_httpc", source = "hex", outer_checksum = "06AC1CA52C9BAA66C9D5C0303B2BF34E39AA1546BB96AEE496E4B06D513AB8C7" },
   { name = "gleam_stdlib", version = "0.33.0", build_tools = ["gleam"], requirements = [], otp_app = "gleam_stdlib", source = "hex", outer_checksum = "539E37A2AA5EBE8E75F4B74755E4CC604BD957C3000AC8D705A2024886A2738B" },
   { name = "gleeunit", version = "1.0.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleeunit", source = "hex", outer_checksum = "D3682ED8C5F9CAE1C928F2506DE91625588CC752495988CBE0F5653A42A6F334" },
+  { name = "nibble", version = "0.2.3", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "nibble", source = "hex", outer_checksum = "C9EB428EAC11007414C2FBA5B39F0E8DB27FDAB26534F2AD607D5AA6FCF32559" },
   { name = "simplifile", version = "1.0.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "simplifile", source = "hex", outer_checksum = "0BD6F0E7DA1A7E11D18B8AD48453225CAFCA4C8CFB4513D217B372D2866C501C" },
 ]
 
@@ -16,4 +17,5 @@ gleam_http = { version = "~> 3.5" }
 gleam_httpc = { version = "~> 2.1" }
 gleam_stdlib = { version = "~> 0.32" }
 gleeunit = { version = "~> 1.0" }
+nibble = { version = "~> 0.2" }
 simplifile = { version = "~> 1.0" }
