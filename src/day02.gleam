@@ -82,7 +82,7 @@ fn is_game_possible(game: Game, limits: Limits) -> Bool {
   |> list.all(is_round_possible(_, limits))
 }
 
-pub fn part_1(input: String, limits: Limits) -> Int {
+pub fn solve_part1(input: String, limits: Limits) -> Int {
   parse_games(input)
   |> list.filter(is_game_possible(_, limits))
   |> list.map(fn(game) { game.id })
@@ -118,8 +118,8 @@ fn upgrade(from d1: Dict(a, Int), to d2: Dict(a, Int)) -> Dict(a, Int) {
 }
 
 fn minimum_set(game: Game) -> Cubes {
-  let [first_round, ..other_rounds] = game.rounds
-  list.fold(over: other_rounds, from: first_round, with: upgrade)
+  let assert Ok(min) = list.reduce(game.rounds, with: upgrade)
+  min
 }
 
 fn power(cubes: Cubes) -> Int {
@@ -128,7 +128,7 @@ fn power(cubes: Cubes) -> Int {
   |> int.product
 }
 
-pub fn part_2(input: String) -> Int {
+pub fn solve_part2(input: String) -> Int {
   parse_games(input)
   |> list.map(minimum_set)
   |> list.map(power)

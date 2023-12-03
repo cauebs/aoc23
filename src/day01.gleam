@@ -40,7 +40,7 @@ fn calibration_value(digits: List(Int)) -> Result(Int, Nil) {
   |> result.nil_error
 }
 
-pub fn part_1(input: String) -> Int {
+pub fn solve_part1(input: String) -> Int {
   input
   |> string.split("\n")
   |> list.map(digits)
@@ -48,7 +48,7 @@ pub fn part_1(input: String) -> Int {
   |> int.sum
 }
 
-pub fn part_2(input: String) -> Int {
+pub fn solve_part2(input: String) -> Int {
   input
   |> string.split("\n")
   |> list.map(overlapping_number_names_to_digits)

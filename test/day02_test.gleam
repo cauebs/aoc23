@@ -1,5 +1,5 @@
 import aoc23.{get_input}
-import day02
+import day02.{solve_part1, solve_part2}
 import gleam/dict
 import gleeunit/should
 
@@ -13,20 +13,20 @@ pub fn part1_test() {
   let limits = dict.from_list([#("red", 12), #("green", 13), #("blue", 14)])
 
   example
-  |> day02.part_1(limits)
+  |> solve_part1(limits)
   |> should.equal(8)
 
   get_input(2)
-  |> day02.part_1(limits)
+  |> solve_part1(limits)
   |> should.equal(3099)
 }
 
 pub fn part2_test() {
   example
-  |> day02.part_2()
+  |> solve_part2()
   |> should.equal(2286)
 
   get_input(2)
-  |> day02.part_2()
+  |> solve_part2()
   |> should.equal(72_970)
 }
