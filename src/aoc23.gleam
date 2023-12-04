@@ -3,7 +3,6 @@ import gleam/erlang/os.{get_env}
 import gleam/http/request
 import gleam/httpc
 import gleam/int
-import gleam/io
 import gleam/result
 import gleam/string
 import simplifile.{type FileError}
@@ -58,8 +57,4 @@ pub fn get_input(day: Int) -> String {
 
   let assert Ok(input) = result.lazy_or(cached, fetch)
   input
-}
-
-pub fn debug_apply(fun: fn(a) -> b, value: a) -> b {
-  io.debug(fun(io.debug(value)))
 }
