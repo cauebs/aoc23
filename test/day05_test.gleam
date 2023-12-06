@@ -53,5 +53,5 @@ pub fn part2_test() {
 
   get_input(05)
   |> solve_part2
-  |> should.equal(todo)
+  |> should.equal(0)
 }
