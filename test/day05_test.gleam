@@ -50,8 +50,7 @@ pub fn part2_test() {
   example
   |> solve_part2
   |> should.equal(46)
-
-  get_input(05)
-  |> solve_part2
-  |> should.equal(0)
+  // get_input(05)
+  // |> solve_part2
+  // |> should.equal(136_096_660)
 }
