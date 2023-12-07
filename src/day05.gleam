@@ -1,12 +1,11 @@
 import gleam/function.{curry2, curry3, identity}
 import gleam/int
-import gleam/io
-import gleam/list
-import gleam/result
-import gleam/otp/task
 import gleam/iterator.{type Iterator}
+import gleam/list
 import gleam/option.{type Option, None, Some}
 import gleam/order.{type Order}
+import gleam/otp/task
+import gleam/result
 import nibble.{type Parser, drop, keep, many, spaces, whitespace}
 import nibble/predicates
 
