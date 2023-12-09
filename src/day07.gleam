@@ -66,9 +66,9 @@ fn compare_cards(
   cards2: List(String),
   card_order: List(String),
 ) -> Order {
-  case #(cards1, cards2) {
-    #([], []) -> order.Eq
-    #([c1, ..rest1], [c2, ..rest2]) -> {
+  case cards1, cards2 {
+    [], [] -> order.Eq
+    [c1, ..rest1], [c2, ..rest2] -> {
       case
         int.compare(
           card_strength(c1, card_order),
