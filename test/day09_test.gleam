@@ -25,3 +25,8 @@ pub fn part2_test() {
   |> solve_part2
   |> should.equal(1136)
 }
+
+pub fn main() {
+  part1_test()
+  part2_test()
+}

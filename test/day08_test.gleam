@@ -52,3 +52,8 @@ pub fn part2_test() {
   |> solve_part2
   |> should.equal(9_177_460_370_549)
 }
+
+pub fn main() {
+  part1_test()
+  part2_test()
+}

@@ -23,3 +23,8 @@
 //   |> solve_part2
 //   |> should.equal(todo)
 // }
+//
+// pub fn main() {
+//   part1_test()
+//   part2_test()
+// }

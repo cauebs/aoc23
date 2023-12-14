@@ -30,3 +30,8 @@ zoneight234
   |> solve_part2
   |> should.equal(55_413)
 }
+
+pub fn main() {
+  part1_test()
+  part2_test()
+}

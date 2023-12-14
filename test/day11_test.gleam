@@ -37,3 +37,8 @@ pub fn part2_test() {
   |> solve(1_000_000)
   |> should.equal(597_714_117_556)
 }
+
+pub fn main() {
+  part1_test()
+  part2_test()
+}
