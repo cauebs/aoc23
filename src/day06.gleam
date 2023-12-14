@@ -1,3 +1,4 @@
+import aoc23.{par_map}
 import gleam/float
 import gleam/function.{curry2}
 import gleam/int
@@ -70,23 +71,24 @@ fn ways_to_win(race: Race) -> Int {
   |> list.length
 }
 
-pub fn solve_part1(input: String) -> Int {
-  let assert Ok(answer) =
-    input
-    |> parse_races
-    |> list.map(ways_to_win)
+fn solve(races: List(Race)) -> Int {
+  let assert Ok(result) =
+    races
+    |> par_map(ways_to_win)
     |> list.reduce(int.multiply)
 
-  answer
+  result
+}
+
+pub fn solve_part1(input: String) -> Int {
+  input
+  |> parse_races
+  |> solve
 }
 
 pub fn solve_part2(input: String) -> Int {
-  let assert Ok(answer) =
-    input
-    |> string.replace(each: " ", with: "")
-    |> parse_races
-    |> list.map(ways_to_win)
-    |> list.reduce(int.multiply)
-
-  answer
+  input
+  |> string.replace(each: " ", with: "")
+  |> parse_races
+  |> solve
 }

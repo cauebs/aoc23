@@ -1,8 +1,11 @@
+import aoc23.{par_map}
+import gleam/dict.{type Dict}
 import gleam/function.{curry2}
 import gleam/int
 import gleam/list
 import gleam/option.{type Option, None, Some}
-import gleam/otp/task
+import gleam/pair
+import gleam/result
 import gleam/string
 import nibble.{type Parser, drop, keep, many, one_of}
 
@@ -46,38 +49,68 @@ fn parse_spring_row(input: String) -> SpringRow {
 }
 
 fn count_possibilities(springs: List(Spring), damaged_groups: List(Int)) -> Int {
-  do_count_possibilities(None, springs, damaged_groups)
+  cached_count_possibilities(dict.new(), None, springs, damaged_groups)
+  |> pair.second
 }
 
-fn do_count_possibilities(
+type CountPossibilitiesCache =
+  Dict(#(List(Spring), List(Int)), Int)
+
+fn cached_count_possibilities(
+  cache: CountPossibilitiesCache,
   previous: Option(Spring),
   springs: List(Spring),
   damaged_groups: List(Int),
-) -> Int {
+) -> #(CountPossibilitiesCache, Int) {
+  let args = #(springs, damaged_groups)
+  dict.get(cache, args)
+  |> result.map(fn(result) { #(cache, result) })
+  |> result.lazy_unwrap(fn() {
+    let #(new_cache, value) =
+      do_count_possibilities(cache, previous, springs, damaged_groups)
+    #(dict.insert(new_cache, args, value), value)
+  })
+}
+
+fn do_count_possibilities(
+  cache: CountPossibilitiesCache,
+  previous: Option(Spring),
+  springs: List(Spring),
+  damaged_groups: List(Int),
+) -> #(CountPossibilitiesCache, Int) {
   case previous, springs, damaged_groups {
-    _, [Damaged, ..], [] | _, [Damaged, ..], [0, ..] -> 0
-    _, [], [] | _, [], [0] -> 1
-    _, [], _ -> 0
+    _, [Damaged, ..], [] | _, [Damaged, ..], [0, ..] -> #(cache, 0)
+    _, [], [] | _, [], [0] -> #(cache, 1)
+    _, [], _ -> #(cache, 0)
 
     _, [Damaged, ..s], [g, ..gs] ->
-      do_count_possibilities(Some(Damaged), s, [g - 1, ..gs])
-    Some(Damaged), [Operational, ..s], [0, ..gs] ->
-      do_count_possibilities(Some(Operational), s, gs)
-    Some(Damaged), [Operational, ..], _ -> 0
-    _, [Operational, ..s], gs ->
-      do_count_possibilities(Some(Operational), s, gs)
+      cached_count_possibilities(cache, Some(Damaged), s, [g - 1, ..gs])
 
-    _, [Unknown, ..s], [] -> do_count_possibilities(Some(Operational), s, [])
+    Some(Damaged), [Operational, ..s], [0, ..gs] ->
+      cached_count_possibilities(cache, Some(Operational), s, gs)
+
+    Some(Damaged), [Operational, ..], _ -> #(cache, 0)
+    _, [Operational, ..s], gs ->
+      cached_count_possibilities(cache, Some(Operational), s, gs)
+
+    _, [Unknown, ..s], [] ->
+      cached_count_possibilities(cache, Some(Operational), s, [])
+
     _, [Unknown, ..s], [0, ..gs] ->
-      do_count_possibilities(Some(Operational), s, gs)
+      cached_count_possibilities(cache, Some(Operational), s, gs)
 
     Some(Damaged), [Unknown, ..s], [g, ..gs] ->
-      do_count_possibilities(Some(Damaged), s, [g - 1, ..gs])
+      cached_count_possibilities(cache, Some(Damaged), s, [g - 1, ..gs])
 
     _, [Unknown, ..s], [g, ..gs] -> {
-      do_count_possibilities(Some(Operational), s, [g, ..gs]) + {
-        do_count_possibilities(Some(Damaged), s, [g - 1, ..gs])
-      }
+      let #(new_cache, result1) =
+        cached_count_possibilities(cache, Some(Operational), s, [g, ..gs])
+
+      let #(newer_cache, result2) =
+        cached_count_possibilities(new_cache, Some(Damaged), s, [g - 1, ..gs])
+
+      let result = result1 + result2
+      #(newer_cache, result)
     }
   }
 }
@@ -87,7 +120,7 @@ pub fn solve_part1(input: String) -> Int {
   |> string.trim
   |> string.split("\n")
   |> list.map(parse_spring_row)
-  |> list.map(fn(row) { count_possibilities(row.springs, row.damaged_groups) })
+  |> par_map(fn(row) { count_possibilities(row.springs, row.damaged_groups) })
   |> int.sum
 }
 
@@ -96,7 +129,7 @@ pub fn solve_part2(input: String) -> Int {
   |> string.trim
   |> string.split("\n")
   |> list.map(parse_spring_row)
-  |> list.map(fn(row) {
+  |> par_map(fn(row) {
     let springs =
       row.springs
       |> list.repeat(5)
@@ -108,8 +141,7 @@ pub fn solve_part2(input: String) -> Int {
       |> list.repeat(5)
       |> list.flatten
 
-    task.async(fn() { count_possibilities(springs, damaged_groups) })
+    count_possibilities(springs, damaged_groups)
   })
-  |> list.map(task.await_forever)
   |> int.sum
 }

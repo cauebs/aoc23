@@ -3,6 +3,8 @@ import gleam/erlang/os.{get_env}
 import gleam/http/request
 import gleam/httpc
 import gleam/int
+import gleam/list
+import gleam/otp/task
 import gleam/result
 import gleam/string
 import simplifile.{type FileError}
@@ -57,4 +59,19 @@ pub fn get_input(day: Int) -> String {
 
   let assert Ok(input) = result.lazy_or(cached, fetch)
   input
+}
+
+const num_cpus = 16
+
+pub fn par_map(l: List(a), f: fn(a) -> b) -> List(b) {
+  l
+  |> list.sized_chunk(list.length(l) / num_cpus)
+  |> list.map(fn(subl) {
+    task.async(fn() {
+      subl
+      |> list.map(f)
+    })
+  })
+  |> list.map(task.await_forever)
+  |> list.flatten
 }

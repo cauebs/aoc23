@@ -1,3 +1,4 @@
+import aoc23.{par_map}
 import gleam/dict.{type Dict}
 import gleam/int
 import gleam/iterator
@@ -248,7 +249,7 @@ pub fn solve_part2(input: String) -> Int {
   iterator.iterate(0, fn(i) { i + 1 })
   |> iterator.map(Position(_, 0))
   |> iterator.take_while(dict.has_key(maze, _))
-  |> iterator.map(count_cells_inside_loop(_, East, loop_cells, maze))
   |> iterator.to_list
+  |> par_map(count_cells_inside_loop(_, East, loop_cells, maze))
   |> int.sum
 }

@@ -25,14 +25,13 @@ pub fn part1_test() {
 }
 
 pub fn part2_test() {
-  todo
-  // example
-  // |> solve_part2
-  // |> should.equal(525_152)
+  example
+  |> solve_part2
+  |> should.equal(525_152)
 
-  // get_input(12)
-  // |> solve_part2
-  // |> should.equal(0)
+  get_input(12)
+  |> solve_part2
+  |> should.equal(23_903_579_139_437)
 }
 
 pub fn main() {

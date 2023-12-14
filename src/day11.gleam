@@ -1,3 +1,4 @@
+import aoc23.{par_map}
 import gleam/string
 import gleam/list
 import gleam/int
@@ -92,7 +93,7 @@ fn sum_of_distances_between_galaxy_pairs(
 ) -> Int {
   image.galaxies
   |> list.combination_pairs
-  |> list.map(fn(galaxy_pair) {
+  |> par_map(fn(galaxy_pair) {
     let #(g1, g2) = galaxy_pair
     distance_between_galaxies(
       g1,
